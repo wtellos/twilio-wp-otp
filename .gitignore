@@ -1,0 +1,22 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+
+# Env
+.env
+*.local
+
+# Node (we'll need it later for tooling)
+node_modules/
+
+# WordPress core & runtime (installed via Docker, not committed)
+wordpress/
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+*.log
+
+
+# Plugin lives in its own repo
