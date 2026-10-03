@@ -4,19 +4,20 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 
-# Env
+# Secrets
 .env
+.env.*
+!.env.example
 *.local
 
-# Node (we'll need it later for tooling)
+# Node (for tooling later)
 node_modules/
 
-# WordPress core & runtime (installed via Docker, not committed)
+# WordPress core and runtime (installed by Docker, never committed)
 wordpress/
-wp-content/uploads/
-wp-content/upgrade/
-wp-content/cache/
+
+# Logs
 *.log
 
-
-# Plugin lives in its own repo
+# Plugin 
+vendor/
