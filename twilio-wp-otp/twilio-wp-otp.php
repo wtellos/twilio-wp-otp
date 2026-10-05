@@ -25,4 +25,6 @@ if ( file_exists( $autoload ) ) {
     require_once $autoload;
     $dotenv = \Dotenv\Dotenv::createImmutable( TWILIO_WP_OTP_PLUGIN_ROOT );
     $dotenv->safeLoad();  
+    new \TwilioWpOtp\RegistrationController();
+
 }
