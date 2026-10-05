@@ -2,8 +2,7 @@
 
 namespace TwilioWpOtp;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+use Twilio\Rest\Client;
 
 class AuthController {
     private $twilio;
@@ -11,10 +10,10 @@ class AuthController {
 
     public function __construct() {
         $this->twilio = new Client(
-            $_ENV['TWILIO_ACCOUNT_SID'],
-            $_ENV['TWILIO_TOKEN']
+            $_ENV['TWILIO_API_KEY'],
+            $_ENV['TWILIO_API_SECRET'],
+            $_ENV['TWILIO_ACCOUNT_SID']
         );
         $this->serviceSid = $_ENV['TWILIO_VERIFY_SID'];
     }
-
 }
