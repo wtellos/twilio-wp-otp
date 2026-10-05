@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name: Twilio WP OTP
- * Description: Passwordless login with SMS one-time codes via Twilio Verify.
+ * Plugin Name: Twilio WP 2FA OTP
+ * Description: 2FA login with SMS OTP via Twilio Verify.
  * Version: 0.1.0
  * Requires PHP: 8.1
  * Text Domain: twilio-wp-otp
@@ -26,5 +26,6 @@ if ( file_exists( $autoload ) ) {
     $dotenv = \Dotenv\Dotenv::createImmutable( TWILIO_WP_OTP_PLUGIN_ROOT );
     $dotenv->safeLoad();  
     new \TwilioWpOtp\RegistrationController();
+    new \TwilioWpOtp\AuthController();
 
 }
