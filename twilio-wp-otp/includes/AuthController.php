@@ -25,6 +25,11 @@ class AuthController {
     }
 
     public function render_verify_screen() {
+
+        if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+            $this->handle_verify_submit();
+        }
+    
         $token   = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : '';
         $pending = get_transient( 'twp_pending_' . $token );
 
@@ -34,6 +39,11 @@ class AuthController {
         }
 
         login_header( 'Verify your code' );
+
+        if ( isset( $_GET['error'] ) ) {
+            echo '<div id="login_error" class="notice notice-error"><p>That code is not correct. Try again.</p></div>';
+        }
+                
         ?>
         <form method="post" action="<?php echo esc_url( add_query_arg( 'action', 'twp_verify', wp_login_url() ) ); ?>">
             <p>
@@ -46,6 +56,33 @@ class AuthController {
         </form>
         <?php
         login_footer();
+        exit;
+    }    
+
+    private function handle_verify_submit() {
+        $token   = isset( $_POST['twp_token'] ) ? sanitize_text_field( wp_unslash( $_POST['twp_token'] ) ) : '';
+        $code    = isset( $_POST['twp_code'] ) ? sanitize_text_field( wp_unslash( $_POST['twp_code'] ) ) : '';
+        $pending = get_transient( 'twp_pending_' . $token );
+
+        if ( ! $pending ) {
+            wp_safe_redirect( wp_login_url() );
+            exit;
+        }
+
+        $phone = get_user_meta( $pending['user_id'], 'twp_phone', true );
+
+        if ( ! $this->check_code( $phone, $code ) ) {
+            wp_safe_redirect( add_query_arg( [
+                'action' => 'twp_verify',
+                'token'  => $token,
+                'error'  => 1,
+            ], wp_login_url() ) );
+            exit;
+        }
+
+        delete_transient( 'twp_pending_' . $token );
+        wp_set_auth_cookie( $pending['user_id'], $pending['remember'] );
+        wp_safe_redirect( admin_url() );
         exit;
     }    
 
