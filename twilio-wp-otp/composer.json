@@ -1,6 +1,6 @@
 {
     "name": "wtellos/twilio-wp-otp",
-    "description": "Passwordless WordPress login with SMS OTP via Twilio Verify",
+    "description": "2FA login with SMS OTP via Twilio Verify",
     "require": {
         "php": ">=8.1",
         "twilio/sdk": "^8.0",
